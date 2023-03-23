@@ -54,34 +54,30 @@ public class SettingController {
 	private SettingRepository settingRepository;
 	
      
-	@GetMapping("/settings")
+	@GetMapping("/settings")  
 	public String viewSettingPage(Model model) throws IOException {
-			List<Setting> Setting = (List<Setting>) settingRepository.findAll();
-			if(Setting.isEmpty()) {
-				Setting s = new Setting();
-				s.setNomecole("Nom auto Ecole");
-				s.setEmail("Contact@auto.ecole");
-				s.setTel("00216 70 000 000");
-				var imgFile = new ClassPathResource("logo.png");
-			    byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
-				s.setLogo(bytes);
-				settingRepository.save(s);
+		
 				Setting Setting1 = settingRepository.findTopByOrderByIdDesc();
 				model.addAttribute("setting", Setting1);
-			}else {
-				Setting Setting1 = settingRepository.findTopByOrderByIdDesc();
-				model.addAttribute("setting", Setting1);
-			}
+			
 			return "auto/settings";
 	}
 	
 	@PostMapping("/savesetting")
 	public String saveApps(Model model,@ModelAttribute("setting") @Validated  Setting setting ,  BindingResult result
-			,@RequestParam("logo") MultipartFile file
+			,@RequestParam("file") MultipartFile logo
 			) throws IOException {
+		String s = Base64.getEncoder().encodeToString(logo.getBytes());
+		System.out.println("s:"+s);
 		Setting Setting = settingRepository.findTopByOrderByIdDesc();
 		setting.setId(Setting.getId());
-		setting.setLogo(file.getBytes());	
+		if(s.isEmpty()) {
+			var imgFile = new ClassPathResource("logo.png");
+		    byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+		    setting.setLogo(bytes);
+		}else {
+			setting.setLogo(logo.getBytes());
+		}
 		settingRepository.save(setting);
 	    return "redirect:/settings";
 	}

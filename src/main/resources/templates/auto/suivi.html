@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Auto Ecole V1 | Index</title>
+  <title>Auto Ecole | suivi</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -60,9 +60,13 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Easy Sender</span>
+    <a th:href="@{/suivi}" class="brand-link">
+	  <img th:if="${setting.logo == null}"  src="logo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+
+      <img th:if="${setting.logo != null}" th:src="@{${'/setting/display/'+ setting.id}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+
+
+      <span class="brand-text font-weight-light" th:text="${setting.nomecole}">Auto Ecole</span>
     </a>
 
     <!-- Sidebar -->
@@ -174,7 +178,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-         <form  th:action="@{/saveeleve}"  method="POST">
+         <form  th:action="@{/saveeleve}"  th:object="${eleve}" method="POST"  onsubmit="return ValidationEventadd()">
       <div class="modal-body">
 		
                    <div class="row">
@@ -182,14 +186,14 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Nom</label>
-                        <input type="text" name="firstname" class="form-control" placeholder="Enter Nom">
+                        <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Enter Nom">
                       </div>
                     </div>
                     <div class="col-sm-6"> 
                       <div class="form-group">
 						  
                         <label>Prenom :</label>
-                        <input type="text" name="lastname" class="form-control" placeholder="Enter Prenom" >
+                        <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter Prenom" >
                       </div>
                     </div>
                   </div>
@@ -198,7 +202,7 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>C.I.N :</label>
-                        <input type="text" name="cin" class="form-control" placeholder="Enter C.I.N">
+                        <input type="text" name="cin" id="cinn" onchange="FindCinn();" class="form-control" placeholder="Enter C.I.N">
                       </div>
                     </div>
                     
@@ -209,9 +213,9 @@
                         <input type="text" name="datenaissance" class="form-control" placeholder="dd/mm/aaaa">
                       </div>
                     </div>
-                     <div class="row">
+                 <div class="row">
                     <div class="col-sm-4">
-                      <!-- text input -->
+                    
                       <div class="form-group">
                         <label>Droit d'examen' : </label>
                         <input type="text" name="droit"  value="0" id="droit" class="form-control" placeholder="0.0">
@@ -236,21 +240,22 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Montant Total : </label>
-                        <input type="text" name="total"  id="total" class="form-control" placeholder="0.00" disabled>
+                        <input type="text" name="total" value="0" id="total" class="form-control"   >
+                      </div>
+                    </div>
+                    <div class="col-sm-4"> 
+                      <div class="form-group">
+                        <label>Reste :</label>
+                        <input type="text" name="reste"  value="0"  id="reste" class="form-control"   >
                       </div>
                     </div>
                     <div class="col-sm-4"> 
                       <div class="form-group">
                         <label>A Compte :</label>
-                        <input type="text" name="somme"  value="0" id="somme" class="form-control" placeholder="0.00" >
+                        <input type="text" name="ACompte" value="0"  id="ACompte" class="form-control"  >
                       </div>
                     </div>
-                    <div class="col-sm-4"> 
-                      <div class="form-group">
-                        <label>Due :</label>
-                        <input type="text" name="due"   value="0" id="due" class="form-control" placeholder="0.00" disabled >
-                      </div>
-                    </div>
+                    
                   </div>
                     
                    
@@ -259,7 +264,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-success">Enregister</button>
       </div>
        </form>
     </div>
@@ -270,7 +275,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                   <form  th:action="@{'/suividetails'}"  th:object="${cin}" onsubmit="return ValidationEvent()"  method="GET">
-      <div class="modal-body">
+                   <div class="modal-body">
 		
                    <div class="row">
                     <div class="col-sm-6">
@@ -278,12 +283,8 @@
                       <div class="form-group">
                         <label>Tapez C I N : </label>
                         <input type="text" name="cin" id="cin" class="form-control" placeholder="Enter C.I.N." onchange="FindCin();">
- 
-
-    
-    </div>
                     </div>
-                    	
+                    </div>
                     <div class="col-sm-6"> 
                       <div class="form-group">
 						  
@@ -368,12 +369,7 @@
     });
   });
 </script>
-<script>
-  $(function () {
-    //Add text editor
-    $('#compose-textarea').summernote()
-  })
-</script>
+
 
 <script>
 	
@@ -386,14 +382,14 @@
      let heure = document.getElementById("heure");
      let prixu = document.getElementById("prixu");
      let total = document.getElementById("total");
-     let acompte = document.getElementById("somme");
-     let due = document.getElementById("due");
+     let acompte = document.getElementById("ACompte");
+     let reste = document.getElementById("reste");
      let droit = document.getElementById("droit");
   
      let sum = 0;
-     let duee = 0;
+     let restee = 0;
 
-      due.value=0.00;
+      reste.value=0.00;
 	  total.value=0.00;
 	  
   acompte.addEventListener("input", calculateSum);
@@ -402,13 +398,13 @@
   droit.addEventListener("input", calculateSum);
 
   function calculateSum() {
-	  due.value=0.00;
-	  total.value=0.00;
+	
     sum = parseInt(heure.value) * parseInt(prixu.value) + parseInt(droit.value);
-    duee = sum - parseInt(acompte.value);
-    due.value=parseInt(duee);
+    restee = sum - parseInt(acompte.value);
+    reste.value=parseInt(restee);
     total.value=parseInt(sum);
-
+ console.log(parseInt(reste));
+  console.log(parseInt(sum));
   }
 });
 
@@ -465,7 +461,41 @@
       };
       
     
+        let ress = true;
+      function FindCinn(){
       
+        let cinn = document.getElementById('cinn').value;
+        console.log(cinn);
+        $.ajax({
+                                          type: "POST",
+                                          contentType: "application/json",
+                                          url: '/auto/cin/'+cinn,
+                                          dataType: 'json',
+                                          cache: false,
+                                          timeout: 600000,
+                                          success: function (data) {
+                                           
+                                              if (data){
+                                                 ress = true;
+                                                
+                                               
+                                              }else {
+                                                ress = false;
+                                                  alert('Numero CIN Existe !!'); 
+                                                 
+                                                
+                                              }
+                                          },
+                                          error: function (e) {
+                                              console.log("ERROR : ", res);
+                                          }
+                                      });
+                   
+      
+  
+      };
+      
+     
       function CinValidation(cin)
       {  var recin = document.getElementById("recin").value;
         let msg='';
@@ -509,6 +539,29 @@
                  }
 
       };
+      
+      
+      function ValidationEventadd(){
+	 let firstname = document.getElementById("firstname");
+     let lastname = document.getElementById("lastname");
+
+	  let cin = document.getElementById("cinn");
+	  let datenaissance = document.getElementById("datenaissance");
+	
+		if(firstname.value=='' || lastname.value=='' || datenaissance.value=='' || cin.value=="" )  {
+				 alert('information incorrecte'); 
+				 return false;
+		}else{
+			 if(!ress){
+				 return false;
+				  alert('Numero CIN Existe !!'); 
+		    }else {
+			
+			return true;
+			 }
+		}
+		   
+	  }
     </script>  
 
 

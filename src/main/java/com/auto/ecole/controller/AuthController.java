@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.PasswordAuthentication;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -20,6 +21,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.auto.ecole.entity.*;
+import com.auto.ecole.repo.SettingRepository;
 import com.auto.ecole.repo.UserRepository;
 
 import net.bytebuddy.utility.RandomString;
@@ -41,9 +44,23 @@ import net.bytebuddy.utility.RandomString;
 public class AuthController {
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
+	private SettingRepository settingRepository;
 	@GetMapping("/login")
-	public String viewLoginPage() {
+	public String viewLoginPage(Model model) throws IOException {
+		List<Setting> Setting = (List<Setting>) settingRepository.findAll();
+		if(Setting.isEmpty()) {
+			Setting s = new Setting();
+			s.setNomecole("Nom auto Ecole");
+			s.setEmail("Contact@auto.ecole");
+			s.setTel("00216 70 000 000");
+			var imgFile = new ClassPathResource("logo.png");
+		    byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+			s.setLogo(bytes);
+			settingRepository.save(s);
+			Setting Setting1 = settingRepository.findTopByOrderByIdDesc();
+			model.addAttribute("setting", Setting1);
+		}
 		return "auto/login";
 	}
 	

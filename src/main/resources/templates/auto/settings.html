@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Auto Ecole V1 | Index</title>
+  <title>Auto Ecole | Settings</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -32,9 +32,6 @@
 .invalid-feedback {
   margin-left: calc(2em + 0.25rem + 1.5rem);
 }
-		
-	</style>
-	<style>
 		.wrong .fa-check
 {
     display: none;
@@ -92,8 +89,9 @@
 }
 
 
+		
+	</style>
 
-</style>
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -121,9 +119,11 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Easy Sender</span>
+    <a  th:href="@{/suivi}" class="brand-link">
+		
+       <img th:if="${setting.logo != null}" th:src="@{${'/setting/display/'+ setting.id}}"  class="brand-image img-circle elevation-3" style="opacity: .8">
+
+      <span class="brand-text font-weight-light" th:text="${setting.nomecole}">Auto Ecole</span>
     </a>
 
     <!-- Sidebar -->
@@ -220,117 +220,12 @@
                 <h3 class="card-title">Parametes Auto-Ecole </h3>
                <!-- Button trigger modal -->
 
-<!--<button type="button" class="btn btn-primary float-sm-right" data-toggle="modal" data-target="#exampleModalCenter">
-  Add
-</button>-->
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-		
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter nouveau Eleve</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-         <form  th:action="@{/saveeleve}"  method="POST">
-      <div class="modal-body">
-		
-                   <div class="row">
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Nom</label>
-                        <input type="text" name="firstname" class="form-control" placeholder="Enter Nom">
-                      </div>
-                    </div>
-                    <div class="col-sm-6"> 
-                      <div class="form-group">
-						  
-                        <label>Prenom :</label>
-                        <input type="text" name="lastname" class="form-control" placeholder="Enter Prenom" >
-                      </div>
-                    </div>
-                  </div>
-                  
-                    <div class="col-sm-12">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>C.I.N :</label>
-                        <input type="text" name="cin" class="form-control" placeholder="Enter C.I.N">
-                      </div>
-                    </div>
-                    
-                      <div class="col-sm-12">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Date :</label>
-                        <input type="text" name="datenaissance" class="form-control" placeholder="dd/mm/aaaa">
-                      </div>
-                    </div>
-                     <div class="row">
-                    <div class="col-sm-4">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Droit d'examen' : </label>
-                        <input type="text" name="droit"  value="0" id="droit" class="form-control" placeholder="0.0">
-                      </div>
-                    </div>
-                    <div class="col-sm-4"> 
-                      <div class="form-group">
-                        <label>Nbr heure :</label>
-                        <input type="text" name="heure"   value="0" id="heure" class="form-control" placeholder="0" >
-                      </div>
-                    </div>
-                     <div class="col-sm-4"> 
-                      <div class="form-group">
-                        <label>Prix.U heure :</label>
-                        <input type="text" name="prixu"   value="0" id="prixu" class="form-control" placeholder="0" >
-                      </div>
-                    </div>
-                 
-                  </div>
-                      <div class="row">
-                    <div class="col-sm-4">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Montant Total : </label>
-                        <input type="text" name="total"  id="total" class="form-control" placeholder="0.00" disabled>
-                      </div>
-                    </div>
-                    <div class="col-sm-4"> 
-                      <div class="form-group">
-                        <label>A Compte :</label>
-                        <input type="text" name="somme"  value="0" id="somme" class="form-control" placeholder="0.00" >
-                      </div>
-                    </div>
-                    <div class="col-sm-4"> 
-                      <div class="form-group">
-                        <label>Due :</label>
-                        <input type="text" name="due"   value="0" id="due" class="form-control" placeholder="0.00" disabled >
-                      </div>
-                    </div>
-                  </div>
-                    
-                   
-                 
-                 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Save</button>
-      </div>
-       </form>
-    </div>
-  </div>
-</div>
 
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                  <form  th:action="@{'/savesetting'}"  th:object="${setting}" onsubmit="return ValidationEvent()"  method="GET">
+                  <form  th:action="@{'/savesetting'}"   enctype="multipart/form-data"  th:object="${setting}" onsubmit="return Validationsetting();"  method="POST">
       <div class="modal-body">
 		
                    <div class="row">
@@ -338,15 +233,15 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Nom Auto Ecole : </label>
-                        <input type="text" name="nomecole" id="nomecole" th:value="${setting.nomecole}"  class="form-control" placeholder="Enter nomecole." onchange="FindCin();">
+                        <input type="text" name="nomecole" id="nomecole" th:value="${setting.nomecole}"  class="form-control" placeholder="Enter nomecole.">
                    </div>
                     <div class="form-group">
                         <label>Email : </label>
-                        <input type="text" name="email" id="email"   th:value="${setting.email}" class="form-control" placeholder="Enter email." onchange="FindCin();">
+                        <input type="text" name="email" id="email"   th:value="${setting.email}" class="form-control" placeholder="Enter email." >
                    </div>
                     <div class="form-group">
                         <label>Telephone : </label>
-                        <input type="text" name="tel" id="tel"   th:value="${setting.tel}" class="form-control" placeholder="Enter Telephone." onchange="FindCin();">
+                        <input type="text" name="tel" id="tel"   th:value="${setting.tel}" class="form-control" placeholder="Enter Telephone." >
                    </div>
                     </div>
                     	
@@ -357,19 +252,20 @@
                      
                   <label>Logo Auto-Ecole : </label>
 										<div class="col-sm-7">
-
-											<div class="profile-pic border" >
+										<div class="profile-pic border" >
 											  <label class="-label" for="file">
 											    <span class="glyphicon glyphicon-camera "></span>
 											    <span>Change Image</span>
 											  </label>
-											
-											  <input id="file"  name="file" type="file" onchange="loadFile(event)" required/>
+																	
+											 <input id="file"  name="file" type="file" onchange="loadFile(event)"    />
 											  
-											<img th:if="${setting.logo == null}" src="logo.jpg" id="output" width="100" height="100" class="rounded-circle">
+											<img th:if="${setting.logo == null}" src="logo.png" id="output"  width="100" height="100" class="rounded-circle">
 											<img th:if="${setting.logo != null}" th:src="@{${'/setting/display/'+ setting.id}}"  id="output" width="100" height="100" class="rounded-circle">
 
 											</div>
+											
+										
 											
 											
 											
@@ -385,7 +281,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Chercher</button>
+        <button type="submit" class="btn btn-success">Modifier</button>
       </div>
        </form>
               </div>
@@ -456,53 +352,14 @@
       "responsive": true,
     });
   });
-</script>
-<script>
-  $(function () {
-    //Add text editor
-    $('#compose-textarea').summernote()
-  })
-</script>
-
-<script>
-	
-
-   
-
-  document.addEventListener("DOMContentLoaded", function() {
- console.log();
-  
-     let heure = document.getElementById("heure");
-     let prixu = document.getElementById("prixu");
-     let total = document.getElementById("total");
-     let acompte = document.getElementById("somme");
-     let due = document.getElementById("due");
-     let droit = document.getElementById("droit");
-  
-     let sum = 0;
-     let duee = 0;
-
-      due.value=0.00;
-	  total.value=0.00;
-	  
-  acompte.addEventListener("input", calculateSum);
-  heure.addEventListener("input", calculateSum);
-  prixu.addEventListener("input", calculateSum);
-  droit.addEventListener("input", calculateSum);
-
-  function calculateSum() {
-	  due.value=0.00;
-	  total.value=0.00;
-    sum = parseInt(heure.value) * parseInt(prixu.value) + parseInt(droit.value);
-    duee = sum - parseInt(acompte.value);
-    due.value=parseInt(duee);
-    total.value=parseInt(sum);
-
-  }
-});
-
+  /* var loadFile = function (event) {
+  var image = document.getElementById("output");
+  image.src = URL.createObjectURL(event.target.files[0]);
+};*/
 
 </script>
+
+
   <script>
 	  function alert(msg) {
       $(document).Toasts('create', {
@@ -520,90 +377,32 @@
         body: msg
       })
     };
-        let res = true;
-      function FindCin(){
-      
-        let cin = document.getElementById('cin').value;
-        console.log(cin);
-        $.ajax({
-                                          type: "POST",
-                                          contentType: "application/json",
-                                          url: '/auto/cin/'+cin,
-                                          dataType: 'json',
-                                          cache: false,
-                                          timeout: 600000,
-                                          success: function (data) {
-                                           
-                                              if (!data){
-                                                res = true;
-                                                   alertt('---------- > CIN Valide !!!');
-                                               
-                                              }else {
-                                                res = false;
-                                                 alert('CIN Nexiste pas dans bd !!!!!');
-                                                
-                                              }
-                                          },
-                                          error: function (e) {
-                                              console.log("ERROR : ", res);
-                                          }
-                                      });
-                   
-      
-  
-      };
-      
     
-      
-      function CinValidation(cin)
-      {  var recin = document.getElementById("recin").value;
-        let msg='';
-        if(cin=='') { 
-           msg+= '    ----------------------->      Cin est vide     <br>';
-        }
-         if(cin.length != 8) { 
-            msg+= 'Numero CIN contient uniquement  8 chiffre  <br>';
-        }  if(cin.search(/[a-z]/) > 0 || cin.search(/[A-Z]/) > 0 ) { 
-            msg+= 'Error: ne contient pas de caractere  <br>';
-        }   else if(cin.search(/[@,#,&,-,_,.,$]/) > 0) { 
-          msg+='Error: cin ne doit pas contient de symbole  <br>';
-        }  if(cin!=recin) { 
-           msg+='Confirmez Correctement Votre code cin   <br>';
-        }
-        
-        
-         if(msg!=''){
-			
-			 alert(msg); 
-			 return false; 
-		}
-        
-        else { 
-        
-        return true; 
-      
-        }    
-      };
-      
-      function ValidationEvent() {
+   var loadFile = function (event) {
+  var image = document.getElementById("output");
+ 
+  image.src = URL.createObjectURL(event.target.files[0]);
+ 
+};
+
+      function Validationsetting() {
+		
           // Storing Field Values In Variables
-          var cin = document.getElementById("cin").value;
-          var recin = document.getElementById("recin").value;
-                  if (CinValidation(cin)) {
-                       if(res){ return true;
-		               }else {  return false; }
+          var nomecole = document.getElementById("nomecole").value;
+          var email = document.getElementById("email").value;
+          var tel = document.getElementById("tel").value;
+                  if (nomecole==""  || email=="" || tel=="") {
+                      alert('Fomulaire incorrecte !!!'); return false;
+		          
                
                  } else {
-                 return false;
+                 return true;
                  }
 
       };
       
       
-         var loadFile = function (event) {
-  var image = document.getElementById("output");
-  image.src = URL.createObjectURL(event.target.files[0]);
-};
+  
     </script>  
 
 

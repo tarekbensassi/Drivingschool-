@@ -60,6 +60,7 @@ import com.auto.ecole.entity.*;
 import com.auto.ecole.repo.*;
 
 
+
 @Controller
 public class IndexController {
 	
@@ -70,19 +71,21 @@ public class IndexController {
 	@Autowired
 	private ElevedetailsRepository elevedetailsRepository;
 	
-
+	@Autowired
+	private SettingRepository settingRepository;
 
 
 	
 	@GetMapping("/index")
 	public String viewIndexPage(Model model) {
-			Iterable<Eleve> eleves = eleveRepository.findAll();
-			model.addAttribute("eleves", eleves);
+		
 			return "auto/index";
 	}
 	@GetMapping("/suivi")
 	public String viewSuiviePage(Model model) {
-			
+
+		Setting Setting1 = settingRepository.findTopByOrderByIdDesc();
+		model.addAttribute("setting", Setting1);
 			return "auto/suivi";
 	}
 	@GetMapping("/suividetails")
@@ -97,6 +100,9 @@ public class IndexController {
 			model.addAttribute("elevedetails", elevedetails);
 			System.out.print("elevedetails"+elevedetails);
 			
+			Setting Setting1 = settingRepository.findTopByOrderByIdDesc();
+			model.addAttribute("setting", Setting1);
+			
 			return "auto/suividetails";
 	}
 	
@@ -105,11 +111,11 @@ public class IndexController {
 	@PostMapping("/saveeleve")
 	public String saveApps(Model model,@ModelAttribute("eleve") @Validated  Eleve eleve ,  BindingResult result
 			
-			) throws IOException {
-		
-		
+			) throws IOException {	
+
+
 		eleveRepository.save(eleve);
-	    return "redirect:/index";
+	    return "redirect:/suivi";
 	}
 	
 
@@ -123,22 +129,20 @@ public class IndexController {
 		 ed.setStatus(Elevedetails.getStatus());
 		 ed.setEleve(eleve);
 		 elevedetailsRepository.save(ed);
-		 
-	
-		 
 		
 		
-			 Eleve e =new  Eleve();
-			 e.setId(eleve.getId());
-			 e.setCin(eleve.getCin());
-			 e.setDatenaissance(eleve.getDatenaissance());
-			 e.setFirstname(eleve.getFirstname());
-			 e.setLastname(eleve.getLastname());
-			 e.setSomme(eleve.getSomme());
-			 e.setDue(eleve.getDue()-Elevedetails.getPrix());
-			 e.setTotal(eleve.getTotal()+Elevedetails.getPrix());
-			 eleveRepository.save(e);
-	
+		  Eleve e = eleveRepository.findById(Elevedetails.getId()).get();
+			if(Elevedetails.getStatus().equals("Debit") ) // paiement
+			{
+				 e.setReste(e.getReste()-Elevedetails.getPrix());
+				 eleveRepository.save(e);
+				 
+			}else if(Elevedetails.getStatus().equals("Credit"))//credit de montant
+			{    e.setReste(e.getReste()+Elevedetails.getPrix());
+				 e.setTotal(e.getTotal()+Elevedetails.getPrix());
+				 eleveRepository.save(e);
+			}
+			
 	
 		
 		

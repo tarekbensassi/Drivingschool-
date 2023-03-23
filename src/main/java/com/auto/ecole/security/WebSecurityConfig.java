@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	  	.antMatchers("/**/**/*.js","/**/**/*.js","/**/*.js","/**/*.png","/**/*.jpg","/**/*.jpg", "/**/*.css").permitAll()
      	.antMatchers("/**/dist/**","/**/plugins/**","/**/auto/**").permitAll()
 		
-	     	.antMatchers("/index/**","/suivi/**","/settings/**").hasAnyAuthority("ADMIN")
+	     	.antMatchers("/index/**","/suivi/**","/settings/**","/savesetting/**").hasAnyAuthority("ADMIN")
 	     //	.antMatchers("/").permitAll()
 	     
 		

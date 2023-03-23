@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Auto Ecole V1 | Index</title>
+  <title>Auto Ecole | suivi details</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -43,9 +43,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Easy Sender</span>
+    <a th:href="@{/suivi}" class="brand-link">
+   <img th:if="${setting.logo != null}" th:src="@{${'/setting/display/'+ setting.id}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+
+      <span class="brand-text font-weight-light" th:text="${setting.nomecole}">Auto Ecole</span>
     </a>
 
     <!-- Sidebar -->
@@ -157,7 +158,11 @@
                       <div class="form-group">
 						  
                         <label>status :</label>
-                       <p> [[${eleves.status}]]  </p>
+                        		  <span th:if="${eleves.reste == 0}"><p style="color: green;"> Payée &#9650; </p> </span>
+                          <span th:if="${eleves.reste != 0}"><p  style="color: red;"> Non Payée &#9660;	 </p></span>
+                   
+
+                   
                       </div>
                     </div>
                   </div>
@@ -183,7 +188,7 @@
                       <div class="form-group">
                              <label>Type :</label>
                             <div class="col-sm-12">
-                             <select class="form-control select2"  name="status" style="width: 100%;">
+                             <select class="form-control select2" id="status" name="status" style="width: 100%;">
                     <option    style="color: green;" value="Debit" > <p > Debit &#9650; </p>  </option>
                     <option style="color: red;" value="Credit" ><p  > Credit &#9660;	 </p>  </option>
                   
@@ -198,11 +203,12 @@
                       <div class="form-group">
 						  
                         <label>Montant :</label>
-                        <input type="text" name="prix" class="form-control" placeholder="Enter Montant" >
+                        <input type="text"  name="prix" value="0.0" class="form-control" >
                       </div>
                     </div>
                 
                   </div>
+                  
                   
                  
                  
@@ -241,7 +247,7 @@
                   <tr>
 			      <th rowspan="1" colspan="1">Compte 
 </th>
-                  <th rowspan="1" colspan="1">Due : [[${eleves.due}]]</th>
+                  <th rowspan="1" colspan="1">Reste : [[${eleves.reste}]]</th>
                   <th rowspan="1" colspan="1">Total : [[${eleves.total}]]</th>
            
                   </tfoot>
@@ -316,10 +322,9 @@
   });
 </script>
 <script>
-  $(function () {
-    //Add text editor
-    $('#compose-textarea').summernote()
-  })
+  
+
+
 </script>
 
 

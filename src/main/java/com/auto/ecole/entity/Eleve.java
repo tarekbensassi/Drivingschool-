@@ -41,15 +41,13 @@ public class Eleve {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;   
 	private String firstname;
 	private String lastname;
 	private String cin;
-	private String status;
 	private String datenaissance;
-	private double due;
-	private double somme;
-	private double total;   
+	private double reste;
+	private double total;     
   
 }
 

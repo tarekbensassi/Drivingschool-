@@ -23,7 +23,7 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Connectez-vous pour acceder a votre Session</p>
 
     <form class="contact-bx" th:action="@{/login}"  method="POST">
 					<div th:if="${param.error}">
@@ -50,20 +50,20 @@
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
               <label for="remember">
-                Remember Me
+               Rappeler Moi
               </label>
             </div>
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-primary btn-block">Connecter</button>
           </div>
           <!-- /.col -->
         </div>
       </form>
 
       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
+        <p>- Ou -</p>
         <a href="#" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
         </a>
@@ -74,11 +74,9 @@
       <!-- /.social-auth-links -->
 
       <p class="mb-1">
-        <a th:href="@{/forgot_password}">I forgot my password</a>
+        <a th:href="@{/forgot_password}">Mot de passe oublier ?</a>
       </p>
-      <p class="mb-0">
-        <a th:href="@{/register}" class="text-center">Register a new membership</a>
-      </p>
+     
     </div>
     <!-- /.login-card-body -->
   </div>
