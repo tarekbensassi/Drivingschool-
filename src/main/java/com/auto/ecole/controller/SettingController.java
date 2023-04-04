@@ -67,7 +67,7 @@ public class SettingController {
 	public String saveApps(Model model,@ModelAttribute("setting") @Validated  Setting setting ,  BindingResult result
 			,@RequestParam("file") MultipartFile logo
 			) throws IOException {
-		String s = Base64.getEncoder().encodeToString(logo.getBytes());
+		/*String s = Base64.getEncoder().encodeToString(logo.getBytes());
 		System.out.println("s:"+s);
 		Setting Setting = settingRepository.findTopByOrderByIdDesc();
 		setting.setId(Setting.getId());
@@ -75,12 +75,16 @@ public class SettingController {
 			var imgFile = new ClassPathResource("logo.png");
 		    byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
 		    setting.setLogo(bytes);
-		}else {
+		}else if(!s.isEmpty()) {
 			setting.setLogo(logo.getBytes());
-		}
+		}*/
+		setting.setLogo(logo.getBytes());
 		settingRepository.save(setting);
 	    return "redirect:/settings";
 	}
+	
+	
+	
 	@GetMapping("/setting/display/{id}")
 	@ResponseBody
 	void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Setting> Setting)

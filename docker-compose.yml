@@ -1,0 +1,30 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3'
+
+#Define services
+services:
+  #Back-end Spring Boot Application
+  easysender:
+    image: easysender:latest
+    container_name: easysender
+    ports:
+      - 9024:9024
+    restart: unless-stopped
+    depends_on:
+      - easy-postgres
+    links:
+      - easy-postgres
+    #PostgreSQL Database for the application
+  easy-postgres:
+    image: "postgres:14-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=easysender
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - easysender-data:/var/lib/postgresql/data
+#Volumes for DB data
+volumes:
+  easysender-data:
