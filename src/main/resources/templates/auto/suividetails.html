@@ -139,23 +139,26 @@
               <div class="card-header">
                 <h3 class="card-title">Inbox Liste Eleve </h3>
                <!-- Button trigger modal -->
-               <br>
+               <br> <br>
                  <div class="row">
-                    <div class="col-sm-3">
+					 <div class="col-6">
+						
+						  <div class="row">
+                    <div class="col-sm-4">
                       <!-- text input -->
                       <div class="form-group">
                         <label>Nom</label>
                         <p> [[${eleves.cin}]]</p>
                       </div>
                     </div>
-                    <div class="col-sm-3"> 
+                    <div class="col-sm-4"> 
                       <div class="form-group">
 						  
                         <label>Prenom :</label>
                        <p> [[${eleves.lastname}]]  [[${eleves.firstname}]]</p>
                       </div>
                     </div>
-                       <div class="col-sm-3"> 
+                       <div class="col-sm-4"> 
                       <div class="form-group">
 						  
                         <label>status :</label>
@@ -166,66 +169,63 @@
                    
                       </div>
                     </div>
-                  </div>
- <button type="button" class="btn btn-primary" data-target="#exampleModalCenter" hidden>
-<i class="fa fa-print" aria-hidden="true"></i> Imprimer
-</button>
-<button type="button" class="btn btn-primary float-sm-right" data-toggle="modal" data-target="#exampleModalCenter">
-     <i class="fa fa-cogs" aria-hidden="true"></i> Reglement
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-		
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">MAJ Eleve Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-         <form  th:action="@{/savedetails}" th:object="${elevedetails}"  method="POST">
-      <div class="modal-body">
+                    </div>
+                    </div>
+                    	 <div class="col-6">
+							
+						  <div class="row">
+                  <form  th:action="@{/savedetails}" th:object="${elevedetails}"  method="POST">
+    
 		 <input type="text" name="id" th:value="${eleves.id}" class="form-control" hidden>
                   
+                    
+                  
+                  
+                      <div class="row">
+                    <div class="col-sm-4"> 
                       <div class="form-group">
-                             <label>Type :</label>
-                            <div class="col-sm-12">
-                             <select class="form-control select2" id="status" name="status" style="width: 100%;">
+						  
+                        <label>Type :</label>
+                          <select class="form-control select2" id="status" name="status" style="width: 100%;">
                     <option    style="color: green;" value="Debit" > <p > Debit &#9650; </p>  </option>
                     <option style="color: red;" value="Credit" ><p  > Credit &#9660;	 </p>  </option>
                   
                   </select>
-                            </div>
-                          </div>
-                  
-                  
-                      <div class="row">
-                   
-                    <div class="col-sm-12"> 
+                      </div>
+                    </div>
+                    <div class="col-sm-4"> 
                       <div class="form-group">
 						  
                         <label>Montant :</label>
                         <input type="text"  name="prix" value="0.0" class="form-control" >
                       </div>
                     </div>
-                
+                 <div class="col-sm-4"> 
+                      <div class="form-group ">
+					
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+      
+                      </div>
+                    </div>
                   </div>
                   
                   
                  
                  
                  
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Save</button>
-      </div>
+    
+     
        </form>
-    </div>
-  </div>
-</div>
+                    </div>
+                    </div>
+                  </div>
+
+<button type="button" class="btn btn-primary float-sm-right" data-toggle="modal" data-target="#exampleModalCenter">
+     <i class="fa fa-print" aria-hidden="true"></i> Imprimer
+</button>
+
+
               </div>
               <!-- /.card-header -->
               <div class="card-body">
