@@ -42,10 +42,18 @@ import net.bytebuddy.utility.RandomString;
 
 @Controller
 public class AuthController {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private SettingRepository settingRepository;
+	
+	
+	private final UserRepository userRepository;
+	private final SettingRepository settingRepository;
+	
+	public AuthController( UserRepository userRepository,
+			SettingRepository settingRepository) {
+	      this.settingRepository = settingRepository;
+	      this.userRepository = userRepository;
+	}
+	
+	
 	@GetMapping("/login")
 	public String viewLoginPage(Model model) throws IOException {
 		List<Setting> Setting = (List<Setting>) settingRepository.findAll();

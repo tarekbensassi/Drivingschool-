@@ -66,14 +66,20 @@ public class IndexController {
 	
    private Logger logger = LoggerFactory.getLogger(IndexController.class);
 	
-	@Autowired
-	private EleveRepository eleveRepository;
-	@Autowired
-	private ElevedetailsRepository elevedetailsRepository;
+	private final EleveRepository eleveRepository;
+	private final ElevedetailsRepository elevedetailsRepository;
+	private final  SettingRepository settingRepository;
 	
-	@Autowired
-	private SettingRepository settingRepository;
-
+	public IndexController( EleveRepository eleveRepository,
+			ElevedetailsRepository elevedetailsRepository,
+			SettingRepository settingRepository
+			
+			) {
+		      this.eleveRepository = eleveRepository;
+		      this.elevedetailsRepository = elevedetailsRepository;
+		      this.settingRepository = settingRepository;
+		}
+		
 
 	
 	@GetMapping("/index")

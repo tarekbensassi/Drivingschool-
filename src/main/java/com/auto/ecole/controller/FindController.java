@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.auto.ecole.entity.*;
 import com.auto.ecole.repo.EleveRepository;
+import com.auto.ecole.repo.SettingRepository;
 import com.auto.ecole.repo.UserRepository;
 
 import net.bytebuddy.utility.RandomString;
@@ -42,6 +43,15 @@ import net.bytebuddy.utility.RandomString;
 public class FindController {
 	@Autowired
 	private EleveRepository eleveRepository;
+	
+	
+
+	public FindController( EleveRepository eleveRepository
+		) {
+	      this.eleveRepository = eleveRepository;
+	}
+	
+	
 	 @PostMapping(value="/cin/{cin}")
 		public boolean findCin(@PathVariable("cin") String cin) {
 		

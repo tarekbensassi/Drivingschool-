@@ -50,9 +50,12 @@ import net.bytebuddy.utility.RandomString;
 
 @Controller
 public class SettingController {
-	@Autowired
-	private SettingRepository settingRepository;
+	private final SettingRepository settingRepository;
 	
+	
+	public SettingController( SettingRepository settingRepository) {
+		      this.settingRepository = settingRepository;
+	}
      
 	@GetMapping("/settings")  
 	public String viewSettingPage(Model model) throws IOException {
